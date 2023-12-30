@@ -1,0 +1,60 @@
+version: "3.9"
+services:
+
+  telegrambot:
+    build: ./bot
+    volumes:
+      - ./bot:/bot
+    environment:
+      - TG_TOKEN=${TG_TOKEN}
+      - SERVER_HOST=${TG_HOST}
+      - SERVER_PORT=${TG_PORT}
+    restart: always
+    depends_on:
+      - server
+
+  server:
+    build: ./server
+    restart: always
+    volumes:
+      - ./server:/server
+    ports:
+      - "8080:8080"
+    environment:
+      - HOST=${SERVER_HOST}
+      - PORT=${SERVER_PORT}
+      - DB_NAME=${POSTGRES_DATABASE}
+      - DB_USER=${POSTGRES_USER}
+      - DB_HOST=${POSTGRES_HOST}
+      - DB_PASS=${POSTGRES_PASSWORD}
+      - DB_PORT=${POSTGRES_PORT}
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:14.1-alpine
+    restart: on-failure
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DATABASE}
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./db-create/db-create.sql:/docker-entrypoint-initdb.d/database-seed.sql
+      - ./db-data/:/var/lib/postgresql/data
+  
+  pgadmin:
+    container_name: pgadmin4_container
+    image: dpage/pgadmin4:7
+    restart: always
+    user: "${UID}:${GID}"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: root
+    ports:
+      - "16543:80"
+    volumes:
+      - ./pgadmin-data:/var/lib/pgadmin
+    depends_on:
+      - postgres
