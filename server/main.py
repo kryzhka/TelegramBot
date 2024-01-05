@@ -257,12 +257,20 @@ def sum_all_meals_by_user(user_id):
         rows=cur.fetchall()
         conn.commit()
         cur.close()
-        result={
+        try:
+            result={
             'calories'      :float(rows[0][0]),
             'squirrels'     :float(rows[0][1]),
             'fats'          :float(rows[0][2]),
             'carbohydrates' :float(rows[0][3])
-        }
+            }
+        except:
+            result={
+            'calories'      :0,
+            'squirrels'     :0,
+            'fats'          :0,
+            'carbohydrates' :0
+            }
         print(result, flush=True)
         
         return result
