@@ -19,7 +19,7 @@ conn = psycopg2.connect(
 def test():
     return 'Hello noname'
 
-@app.route('/users/add_user/<user_id>/<user_name>',methods=['GET','POST'])
+@app.route('/users/add_user/<user_id>/<user_name>',methods=['GET','POST'])# добавление нового пользователя в базу данных
 def add_user(user_id=1,user_name='noname'):
     if request.method=='POST':
         user_id=request.args.get('user_id')
@@ -39,13 +39,69 @@ def add_user(user_id=1,user_name='noname'):
 
         conn.commit()
         cur.close()
-        
-        return "USER IS ADD"
+        return 1
     else:
-        print('error')
-        return -1
-    
-@app.route('/users/<user_id>',methods = ['GET', 'POST'])
+        print('ERR: USER IS NOT ADD',flush=True)
+        return 0
+
+@app.route('/users/<user_id>/add_meals/<meals_id>',methods = ['GET', 'POST'])#Добавление блюда в личный кабинет
+def add_meals_to_user(user_id,meals_id):
+    if request.method=='POST':
+        user_id=request.args.get('user_id')
+        meals_id=request.args.get('meals_id')
+    if request.method=='GET':
+        cur=conn.cursor()
+        cur.execute(
+            f'''
+            insert into journal (log_id,user_id,meals_id)
+            values
+	            (nextval('seq_journal'),{user_id},'{meals_id}')
+            '''
+            )
+        
+        conn.commit()
+        cur.close()
+        print("MEAL ADDED")
+        return 1
+    else:
+        print("ERR: meal not added")
+        return 0
+
+@app.route('/users/<user_id>/remove_meals/<meals_id>',methods = ['GET', 'POST'])#Удаление одного или всех блюд из личного кабинета пользователя
+def remove_meal_from_account(user_id,meals_id):
+    if request.method=='POST':
+        user_id=request.args.get('user_id')
+        meals_id=request.args.get('meals_id')
+    if request.method=='GET':
+        cur=conn.cursor()
+        if(meals_id=='all'):
+            cur.execute(
+            f"delete                                    \
+            from journal                                \
+            where user_id = {user_id};"
+            )
+        
+        else:
+            cur.execute(
+            f'''
+            delete from journal
+            where 
+            user_id = {user_id}
+            and
+            meals_id={meals_id}
+            '''
+            )
+        
+        conn.commit()
+        cur.close()
+        print("MEALS REMOVED")
+        return 1
+    else:
+        print("ERR: meals are not removed")
+        return 0
+
+
+@app.route('/users/<user_id>',methods = ['GET', 'POST'])#Вывод id и названий всех блюд, добавленных пользователем в личный кабинет  
 def get_user_info(user_id=3):
     if request.method=='POST':
         user_id=request.args.get('user_id')
@@ -68,10 +124,35 @@ def get_user_info(user_id=3):
         print(rows,flush=True)
         return rows
     else:
-        print("error")
+        print("ERR:info about user meals")
+        return 0
 
+@app.route('/search_with_limit/<limit>',methods = ['GET', 'POST'])#поиск сверху по количеству калорий
+def earch_with_limit(limit):
+    if request.method=='POST':
+        limit=request.args.get('limit')
+    if request.method=='GET':
+        cur=conn.cursor()
+        
+        cur.execute(
+                f'''
+                select meals_id,name_meals
+                from meals
+                where number_of_calories <= {limit};
+                '''
+                )
+        
+        rows=cur.fetchall()
+        conn.commit()
+        cur.close()
+        print("MEALS FOUND")
+        return rows
+    else:
+        print("ERR:search with limit")
+        return 0
+    
 
-@app.route('/meals/<meal_id>',methods = ['GET'])
+@app.route('/meals/<meal_id>',methods = ['GET'])# ?
 def get_all_meals(meal_id='all'):
     if request.method=='POST':
         meal_id=request.args.get('meal_id')
@@ -115,53 +196,9 @@ def get_all_meals(meal_id='all'):
         print("error")
 
 
-@app.route('/users/<user_id>/add_meals/<meals_id>',methods = ['GET', 'POST'])
-def add_meals_to_user(user_id,meals_id):
-    if request.method=='POST':
-        user_id=request.args.get('user_id')
-        meals_id=request.args.get('meals_id')
-    if request.method=='GET':
-        cur=conn.cursor()
-        cur.execute(
-            f'''
-            insert into journal (log_id,user_id,meals_id)
-            values
-	            (nextval('seq_journal'),{user_id},'{meals_id}')
-            '''
-            )
-        
-        conn.commit()
-        cur.close()
-        print("GET USER INFO")
-        return "GET USER INFO"
-    else:
-        print("error")
 
-@app.route('/users/<user_id>/remove_meals/<meals_id>',methods = ['GET', 'POST'])
-def remove_meal_from_account(user_id,meals_id):
-    if request.method=='POST':
-        user_id=request.args.get('user_id')
-        meals_id=request.args.get('meals_id')
-    if request.method=='GET':
-        cur=conn.cursor()
-        cur.execute(
-            f'''
-            delete from journal
-            where 
-            user_id = {user_id}
-            and
-            meals_id={meals_id}
-            '''
-            )
-        
-        conn.commit()
-        cur.close()
-        print("GET USER INFO")
-        return "GET USER INFO"
-    else:
-        print("error")
 
-@app.route('/search/<product_id>',methods = ['GET', 'POST'])
+@app.route('/search/<product_id>',methods = ['GET', 'POST'])#?
 def search_product(product_id):
     if request.method=='POST':
         product_id=request.args.get('product_id')
@@ -195,48 +232,10 @@ def search_product(product_id):
         print("error")
 
 
-@app.route('/search_with_limit/<limit>',methods = ['GET', 'POST'])
-def earch_with_limit(limit):
-    if request.method=='POST':
-        limit=request.args.get('limit')
-    if request.method=='GET':
-        cur=conn.cursor()
-        
-        cur.execute(
-                f'''
-                select meals_id,name_meals
-                from meals
-                where number_of_calories <= {limit};
-                '''
-                )
-        
-        rows=cur.fetchall()
-        conn.commit()
-        cur.close()
-        return rows
-    else:
-        print("error")
-    
 
-@app.route('/users/<user_id>/delete_all_meals',methods = ['GET', 'POST'])
-def delete_all_meals_from_account(user_id=3):
-    if request.method=='POST':
-        user_id=request.args.get('user_id')
 
-    if request.method=='GET':
-        cur=conn.cursor()
-        cur.execute(
-            f"delete                                    \
-            from journal                                \
-            where user_id = {user_id};"
-            )
-        
-        conn.commit()
-        cur.close()
-    else:
-        print("error")
 
-@app.route('/users/get_meals_sum/<user_id>',methods = ['GET', 'POST'])
+@app.route('/users/get_meals_sum/<user_id>',methods = ['GET', 'POST'])#подсчет общего количества калорий, белков, жиров и углеводов всех блюд, добавленных в личный кабинет
 def sum_all_meals_by_user(user_id):
     if request.method=='POST':
         user_id=request.args.get('product_id')

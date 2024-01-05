@@ -29,15 +29,16 @@ def get_all_products():
 def get_meal_with_product(product_id):
     response=requests.get(f'http://{SERVER_HOST}:{SERVER_PORT}/search/{product_id}')
     return response.json()
+
 def remove_meal_from_account(user_id,meal_id):
     requests.get(f'http://{SERVER_HOST}:{SERVER_PORT}/users/{user_id}/remove_meals/{meal_id}')
+
+def delete_all_meals_from_account(user_id):
+    requests.get(f'http://{SERVER_HOST}:{SERVER_PORT}/users/{user_id}/remove_meals/all')
 
 def get_meals_with_limit(limit):
     response=requests.get(f'http://{SERVER_HOST}:{SERVER_PORT}/search_with_limit/{limit}')
     return response.json()
-
-def delete_all_meals_from_account(user_id):
-    requests.get(f'http://{SERVER_HOST}:{SERVER_PORT}/users/{user_id}/delete_all_meals')
     
 def get_info_about_user_meals(user_id):
     response=requests.get(f'http://{SERVER_HOST}:{SERVER_PORT}/users/get_meals_sum/{user_id}')
