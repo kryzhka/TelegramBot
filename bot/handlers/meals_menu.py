@@ -21,12 +21,13 @@ async def meal(callback: types.CallbackQuery,callback_data=filters.MealMenuActio
     user_id=callback.from_user.id
 
     if action=='add_to_account':
-        db.add_meal_to_account(user_id,meal_id)
+        db.add_meal_to_favorites(user_id,meal_id)
         
         await callback.message.edit_caption(caption="Блюдо добавлено в ваш кабинет",reply_markup=keyboards.action_complete())
     if action=='info_about':
-        res=db.get_meal_info(meal_id)
-        cap = captions.get_meal_info(res)
+        res=db.select_meal(meal_id)
+        quantity=db.get_meal_quantity(meal_id)
+        cap = captions.get_meal_info(res,quantity)
         await callback.message.edit_caption(caption=cap,reply_markup=keyboards.menu_meal_action(meal_id))
         
     await callback.answer()

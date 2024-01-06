@@ -14,7 +14,7 @@ async def command_start_handler(message: Message) -> None:
     
     db.add_user_to_db(user_id,user_name)
     
-    image=FSInputFile("./source/help.png")
+    image=FSInputFile("./source/background.png")
 
     await message.answer_photo(image,caption=f"Здравствуйте, {user_name}",reply_markup=keyboards.main_menu())
 

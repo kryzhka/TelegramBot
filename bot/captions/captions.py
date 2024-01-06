@@ -1,15 +1,15 @@
-def get_meal_info(data):
+def get_meal_info(info,quantity):
     cap=(
     f"Информация о блюде:\n"
     f"Название блюда:\n"
-    f"{data[0][1]}\n"
-    f"Количество калорий:     {data[0][2]}\n"
-    f"Количество белков:      {data[0][3]}\n"
-    f"Количество жиров:       {data[0][4]}\n"
-    f"Количество углеводов:   {data[0][5]}\n"
+    f"{info['name_meals']}\n"
+    f"Количество калорий:     {info['number_of_calories']}\n"
+    f"Количество белков:      {info['number_of_squirrels']}\n"
+    f"Количество жиров:       {info['number_of_fats']}\n"
+    f"Количество углеводов:   {info['number_of_carbohydrates']}\n"
     f"Ингридиенты:\n"
     f"Продукт:        Количество:\n"
     )
-    for i in range(1,len(data)):
-        cap+=f"{data[i][0]}      {data[i][1]}\n"
+    for i in quantity:
+        cap+=f"{i[0]}      {i[1]}\n"
     return cap

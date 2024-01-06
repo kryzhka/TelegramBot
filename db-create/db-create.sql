@@ -18,6 +18,7 @@ PRIMARY KEY (user_id));
 
 CREATE TABLE meals(
 meals_id int NOT NULL,
+creator_id int NOT NULL,
 name_meals varchar(50) NOT NULL,
 number_of_calories numeric(15, 2) NULL,
 number_of_squirrels numeric(15, 2) NULL,
@@ -181,9 +182,9 @@ EXECUTE FUNCTION update_meal_carbohydrates();
  (nextval('seq_users'), 'Леша');
 
  INSERT INTO meals VALUES
- (nextval('seq_meals'), 'Макароны с сосиками и кетчупом', DEFAULT, DEFAULT, DEFAULT, DEFAULT);
+ (nextval('seq_meals'),0, 'Макароны с сосиками и кетчупом', DEFAULT, DEFAULT, DEFAULT, DEFAULT);
  INSERT INTO meals VALUES
- (nextval('seq_meals'), 'Макароны с сосиками', DEFAULT, DEFAULT, DEFAULT, DEFAULT);
+ (nextval('seq_meals'),0, 'Макароны с сосиками', DEFAULT, DEFAULT, DEFAULT, DEFAULT);
 
 INSERT INTO product_meals VALUES
 (1, 1, 300);

@@ -12,12 +12,13 @@ async def send_user_info(callback: types.CallbackQuery,callback_data=filters.Acc
     user_id=callback.from_user.id
     action=callback_data.action
     if action=='delete_all':
-        db.delete_all_meals_from_account(user_id)
+        db.delete_all_meals_from_favorites(user_id)
         await callback.message.edit_caption(caption="Блюда удалены из вашего кабинета",reply_markup=keyboards.action_complete())
 
 
-    user_meals=db.get_user(user_id)
-    info=db.get_info_about_user_meals(user_id)
+    user_meals=db.get_user_favorites(user_id)
+    info=db.get_sum_of_user_PFC(user_id)
+
     cap=(
         f"Ваш id: {user_id}\n"
          "Ваши блюда:\n"
@@ -40,11 +41,12 @@ async def meal(callback: types.CallbackQuery,callback_data=filters.AccountAction
     user_id=callback.from_user.id
 
     if action=='delete':
-        db.remove_meal_from_account(user_id,meal_id)
+        db.remove_meal_from_favorites(user_id,meal_id)
         await callback.message.edit_caption(caption="Блюдо удалено из вашего кабинета",reply_markup=keyboards.action_complete())
     if action=='info_about_meal':
-        res=db.get_meal_info(meal_id)
-        cap = captions.get_meal_info(res)
+        info=db.select_meal(meal_id)
+        quantity=db.get_meal_quantity(meal_id)
+        cap = captions.get_meal_info(info,quantity)
 
         await callback.message.edit_caption(caption=cap,reply_markup=keyboards.user_meals_action(meal_id))
     await callback.answer()
