@@ -1,15 +1,9 @@
 from aiogram.filters.callback_data import CallbackData
 from aiogram.filters.state import State,StatesGroup
 
-class AccountActionWithAllMeal(CallbackData,prefix='action_with_all_meal'):
-    action: str=None
-class AccountActionWithMeal(CallbackData,prefix='account_meal'):
-    action : str = None
-    meal_id: int = None
 
-class MealMenuAction(CallbackData,prefix='meal_menu'):
-    action : str = None
-    meal_id: int = None
+
+
 
 class MealsWithProduct(CallbackData,prefix='get_product'):
     action    : str =None
