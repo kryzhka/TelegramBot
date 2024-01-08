@@ -44,6 +44,10 @@ def get_meal_with_product(product_id):
     response=requests.get(f'http://{SERVER_HOST}:{SERVER_PORT}/products/{product_id}')
     return response.json()
 
+def find_meals_by_name(name):
+    response=requests.get(f'http://{SERVER_HOST}:{SERVER_PORT}/meals_with_name/{name}')
+    return response.json()
+
 def get_sum_of_user_PFC(user_id):
     response=requests.get(f'http://{SERVER_HOST}:{SERVER_PORT}/users/sum_of_user_PFC/{user_id}')
     return response.json()

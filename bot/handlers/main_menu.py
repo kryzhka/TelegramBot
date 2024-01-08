@@ -4,7 +4,7 @@ import db_requests.requests as db
 from aiogram import types, Router,F
 from aiogram.filters import CommandStart
 from aiogram.types import Message , FSInputFile
-
+from filters.filters import MainMenu
 router=Router()
 #Главное меню
 @router.message(CommandStart())
@@ -18,7 +18,7 @@ async def command_start_handler(message: Message) -> None:
 
     await message.answer_photo(image,caption=f"Здравствуйте, {user_name}",reply_markup=keyboards.main_menu())
 
-@router.callback_query(F.data=='main_menu')
+@router.callback_query(MainMenu.filter())
 async def send_user_info(callback: types.CallbackQuery):
     user_name=callback.from_user.full_name
     await callback.message.edit_caption(caption=f'Здравствуйте, {user_name}',reply_markup=keyboards.main_menu())
