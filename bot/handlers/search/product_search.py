@@ -20,10 +20,7 @@ async def input_product_name(message:types.Message,state: FSMContext):
     input_product_name=message.text
     input_product_name=input_product_name.lower()
     input_product_id=-1
-    products=db.get_all_products()
-    for id,product_name in products:
-        if input_product_name==product_name.lower():
-            input_product_id=id
+    input_product_id=db.find_products_by_name(input_product_name)['id'][0]
     await message.delete()
     data=await state.get_data()
     if input_product_id==-1:

@@ -47,6 +47,9 @@ class DeleteAllFromFavorites(CallbackData,prefix='delete all meal from favorites
 class DeleteFromFavorites(CallbackData,prefix='delete select meal from favorites'):#удаление выбранного блюда из избранных
     meal_id: int = None
 
+class ModifyQuantity(CallbackData,prefix='modify quantity'):#Изменение количества ингридиентов
+    None
+
 
 #Каталог блюд
 class MealCatalog(CallbackData,prefix='meal catalog'):#Выводит все доступные блюда

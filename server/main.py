@@ -184,6 +184,32 @@ def search_meal_by_name(name):
         print("ERR:search with name\n",error,flush=True)
         return [False]
 
+@app.route('/product_with_name/<name>',methods = ['GET', 'POST'])#поиск с верхней границей по количеству калорий
+def search_product_by_name(name):
+    try:
+        if request.method=='POST':
+            name=request.args.get('name')
+        if request.method=='GET':
+            cur=conn.cursor(cursor_factory=psycopg2.extras.NamedTupleCursor)
+
+            cur.execute(
+                    f'''
+                    select product_id
+                    from product
+                    WHERE lower(name) LIKE lower('%{name}%')  ;
+                    '''
+                    )
+
+            rows=cur.fetchone()
+            conn.commit()
+            cur.close()
+            print("Products FOUND with name",flush=True)
+            print(rows,flush=True)
+            return {'id':rows}
+    except(Exception, Error) as error:
+        print("ERR:search products with name\n",error,flush=True)
+        return [False]
+
 @app.route('/meals',methods = ['GET'])
 def get_all_meals():# Вывод всех блюд
     try:

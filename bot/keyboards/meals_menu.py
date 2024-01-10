@@ -19,4 +19,5 @@ def menu_meal_action(meal_id):
 def action_complete():
     builder=InlineKeyboardBuilder()
     builder.button(text='Назад',callback_data=MealCatalog())
+    builder.button(text='В главное меню',callback_data=MainMenu())
     return builder.as_markup()

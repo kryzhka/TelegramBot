@@ -1,5 +1,5 @@
 from aiogram.utils.keyboard import InlineKeyboardBuilder
-from filters.filters import Favorites,DeleteAllFromFavorites,GetMealInfo,DeleteFromFavorites,MainMenu
+from filters.filters import Favorites,DeleteAllFromFavorites,GetMealInfo,DeleteFromFavorites,MainMenu,ModifyQuantity
 #Кнопки с названиями блюд добавленных пользователем в кабинет
 def user_meals(meals):
     builder=InlineKeyboardBuilder()
@@ -13,6 +13,7 @@ def user_meals(meals):
 #Кнопки для работы с блюдами добавленными пользователем в кабинет
 def user_meals_action(id):
     builder=InlineKeyboardBuilder()
+    builder.button(text="Изменить количество ингридиентов",callback_data=ModifyQuantity())
     builder.button(text="Удалить",callback_data=DeleteFromFavorites(meal_id=id))
     builder.button(text='Назад',callback_data=Favorites())
     return builder.as_markup()
