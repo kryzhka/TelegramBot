@@ -200,11 +200,10 @@ def search_product_by_name(name):
                     '''
                     )
 
-            rows=cur.fetchone()
+            rows=cur.fetchall()
             conn.commit()
             cur.close()
             print("Products FOUND with name",flush=True)
-            print(rows,flush=True)
             return {'id':rows}
     except(Exception, Error) as error:
         print("ERR:search products with name\n",error,flush=True)
@@ -288,6 +287,7 @@ def get_quantity_of_products(meal_id):#return product_name, quantity
         return [False]
 
 
+
 @app.route('/products',methods = ['GET'])#Вывод всех возможных продуктов
 def get_all_products():#return product_id,product_name
     try:
@@ -303,6 +303,29 @@ def get_all_products():#return product_id,product_name
             cur.close()
             print('GET ALL PRODUCTS',flush=True)
             return rows
+    except(Exception, Error) as error:
+        print("ERR: list of products are not get\n",error,flush=True)
+        return [False]
+
+@app.route('/products/get_name/<product_id>',methods = ['GET'])#Вывод всех возможных продуктов
+def get_product_name(product_id):#return product_id,product_name
+    try:
+        if request.method=='POST':
+            product_id=request.args.get('product_id')
+        if request.method=='GET':
+            cur=conn.cursor(cursor_factory=psycopg2.extras.NamedTupleCursor)
+            cur.execute(
+            f'''
+            select name from product
+            where product_id = {product_id};
+            '''
+            )
+            name=cur.fetchone()
+            conn.commit()
+            cur.close()
+            print('GET ALL PRODUCTS',flush=True)
+            return {'name':name[0]}
+        
     except(Exception, Error) as error:
         print("ERR: list of products are not get\n",error,flush=True)
         return [False]

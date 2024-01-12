@@ -55,3 +55,7 @@ def find_products_by_name(name):
 def get_sum_of_user_PFC(user_id):
     response=requests.get(f'http://{SERVER_HOST}:{SERVER_PORT}/users/sum_of_user_PFC/{user_id}')
     return response.json()
+
+def get_product_name(product_id):
+    response=requests.get(f'http://{SERVER_HOST}:{SERVER_PORT}/products/get_name/{product_id}')
+    return response.json()

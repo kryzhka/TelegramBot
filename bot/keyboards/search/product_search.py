@@ -1,5 +1,5 @@
 from aiogram.utils.keyboard import InlineKeyboardBuilder
-from filters.filters import MainMenu,Search,ProductSearch,GetAllProducts,ProductNameSearch,MealsWithProduct,GetMealInfo,AddMealToFavorites
+from filters.filters import MainMenu,Search,ProductSearch,ProductCatalog,ProductNameSearch,MealsWithProduct,GetMealInfo,AddMealToFavorites
 
 
 #Поиск по введенному ингридиенту
@@ -32,7 +32,7 @@ def action_complete(product_id):
 
 def search_not_found():
     builder=InlineKeyboardBuilder()
-    builder.button(text='Посмотреть все ингридиенты',callback_data=GetAllProducts())
+    builder.button(text='Посмотреть все ингридиенты',callback_data=ProductCatalog())
     builder.button(text='Назад',callback_data=ProductNameSearch())
     builder.button(text="В главное меню",callback_data=MainMenu())
     builder.adjust(1)

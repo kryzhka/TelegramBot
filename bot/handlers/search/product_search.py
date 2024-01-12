@@ -19,14 +19,15 @@ async def input_product_name(message:types.Message,state: FSMContext):
 
     input_product_name=message.text
     input_product_name=input_product_name.lower()
-    input_product_id=-1
-    input_product_id=db.find_products_by_name(input_product_name)['id'][0]
+    fined_product_ids=-1
+    fined_product_ids=db.find_products_by_name(input_product_name)['id']
     await message.delete()
     data=await state.get_data()
-    if input_product_id==-1:
+    if fined_product_ids[0]==None:
         await not_found_error(data['data_callback'],state)
     else:
-        await meals_with_product(data['data_callback'],MealsWithProduct(product_id=input_product_id,product_name=input_product_name,menu='product_found'))
+        print(fined_product_ids)
+        await meals_with_product(data['data_callback'],MealsWithProduct(list_of_product_ids=fined_product_ids,menu='product_found'))
         await state.clear()
 
 async def not_found_error(callback:types.CallbackQuery,state: FSMContext):

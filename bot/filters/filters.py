@@ -22,8 +22,8 @@ class AddMealToFavorites(CallbackData,prefix='add meal to favorites'):#Доба�
     name:str=' '
 
 class MealsWithProduct(CallbackData,prefix='get products with select meal'): #Вывод блюд с выбранным ингридиентом
-    product_id: int = None
-    product_name: str=None
+    list_of_product_ids: list = None
+    product_name: str=' '
     menu:str=None
 
 
@@ -51,10 +51,15 @@ class ModifyQuantity(CallbackData,prefix='modify quantity'):#Изменение 
     None
 
 
-#Каталог блюд
+#Каталог
 class MealCatalog(CallbackData,prefix='meal catalog'):#Выводит все доступные блюда
     None
 
+class ProductCatalog(CallbackData,prefix='product catalog'):
+    None
+
+class CatalogMealsWithProduct(CallbackData,prefix='get meals with selected product in catalog'):
+    product_id:int=None
 
 #Меню поиска
 class ProductSearch(CallbackData,prefix='product search'):#Поиск по ингридиенту
@@ -73,8 +78,6 @@ class InputMessegeProductName(StatesGroup):#Обработка сообщени�
     message = State()
     data_callback= None
 
-class GetAllProducts(CallbackData,prefix='get all products'):
-    None
 
 class ProductNameSearch(CallbackData,prefix='search product name'):
     None

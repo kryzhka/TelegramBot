@@ -2,8 +2,8 @@ import db_requests.requests as db
 from aiogram import types, Router
 from filters.filters import GetMealInfo,AddMealToFavorites,MealsWithProduct
 import keyboards.account as account_keyboards
-import keyboards.meals_menu as meal_menu_keyboards
-import keyboards.search.products_catalog as product_catalog_keyboards
+import keyboards.catalog.meals_catalog as meal_menu_keyboards
+import keyboards.catalog.products_catalog as product_catalog_keyboards
 import keyboards.search.product_search as product_search_keyboards
 import keyboards.search.calories_search as calories_search_keyboards
 import keyboards.search.meal_search as meal_name_search
@@ -25,15 +25,15 @@ async def select_meal(callback: types.CallbackQuery,callback_data=GetMealInfo):
     f"Информация о блюде:\n"
     f"Название блюда:\n"
     f"{info['name_meals']}\n"
-    f"Количество калорий:     {info['number_of_calories']}\n"
-    f"Количество белков:      {info['number_of_squirrels']}\n"
-    f"Количество жиров:       {info['number_of_fats']}\n"
-    f"Количество углеводов:   {info['number_of_carbohydrates']}\n"
+    f"Количество калорий: {info['number_of_calories']}\n"
+    f"Количество белков: {info['number_of_squirrels']}\n"
+    f"Количество жиров: {info['number_of_fats']}\n"
+    f"Количество углеводов: {info['number_of_carbohydrates']}\n"
     f"Ингридиенты:\n"
     f"Продукт:        Количество:\n"
     )
     for i in quantity:
-        cap+=f"{i[0]}      {i[1]}\n"
+        cap+=f"{i[0]}: {i[1]}г.\n"
     
     if(menu=='favorites'):
         keyboard=account_keyboards.user_meals_action(meal_id)
@@ -75,14 +75,15 @@ async def add_meal_to_favorites(callback: types.CallbackQuery,callback_data=AddM
 
 @router.callback_query(MealsWithProduct.filter())#Вывод всех доступных блюд содержащих в себе заданный ингридиент
 async def meals_with_product(callback: types.CallbackQuery,callback_data=MealsWithProduct):
-    product_id=callback_data.product_id
-    product_name=callback_data.product_name
+    list_of_product_id=callback_data.list_of_product_ids
     menu=callback_data.menu
+    res=[]
+    for product_id in list_of_product_id:
+        res+=db.get_meal_with_product(product_id[0])
 
-    res=db.get_meal_with_product(product_id)
     if menu=='all_products':
-        keyboard=product_catalog_keyboards.all_meals_with_product(res,product_id)
+        keyboard=product_catalog_keyboards.all_meals_with_product(res,list_of_product_id[0][0])
     elif menu=='product_found':
-        keyboard=product_search_keyboards.all_meals_with_product(res,product_id)
-    await callback.message.edit_caption(caption=f"Все доступные блюда включающие в себя {product_name}:",reply_markup=keyboard)
+        keyboard=product_search_keyboards.all_meals_with_product(res,list_of_product_id[0][0])
+    await callback.message.edit_caption(caption=f"Блюда содержащие, данный ингридиент:",reply_markup=keyboard)
     await callback.answer()

@@ -203,3 +203,110 @@ INSERT INTO product_meals VALUES
  (nextval('seq_journal'),'1', '2');
 
 
+-- add new meals and products
+INSERT INTO meals VALUES(nextval('seq_meals'),0, 'Салат с Тунцом', DEFAULT, DEFAULT, DEFAULT, DEFAULT);
+
+INSERT INTO meals VALUES(nextval('seq_meals'),0, 'Сырники', DEFAULT, DEFAULT, DEFAULT, DEFAULT);
+
+INSERT INTO meals VALUES(nextval('seq_meals'),0, 'Курица и Паста с Овощами', DEFAULT, DEFAULT, DEFAULT, DEFAULT);
+
+INSERT INTO meals VALUES(nextval('seq_meals'),0, 'Зеленый Смузи', DEFAULT, DEFAULT, DEFAULT, DEFAULT);
+
+INSERT INTO product VALUES
+ (nextval('seq_product'), 'Тунец', '108', '23.38', '0.95', '0');
+INSERT INTO product VALUES
+ (nextval('seq_product'), 'Зеленый горошек', '81', '5.42', '0.4', '14.46');
+INSERT INTO product VALUES
+ (nextval('seq_product'), 'Вареное яйцо', '154', '12.53', '10.57', '1.12');
+INSERT INTO product VALUES
+ (nextval('seq_product'), 'Соленые огурцы с укропом', '18', '0.62', '0.19', '4.12');
+INSERT INTO product VALUES
+ (nextval('seq_product'), 'Сметана', '214', '3.16', '20.96', '4.27');
+
+INSERT INTO product VALUES
+ (nextval('seq_product'), 'Мука рисовая', '356', '5.84', '1.44', '77.73');
+INSERT INTO product VALUES
+ (nextval('seq_product'), 'Яйцо', '147', '12.58', '9.94', '0.77');
+INSERT INTO product VALUES
+ (nextval('seq_product'), 'Творог 9%', '157', '16.01', '9', '2.99');
+INSERT INTO product VALUES
+ (nextval('seq_product'), 'Разрыхлитель теста', '79', '0.2', '0', '19.6');
+
+INSERT INTO product VALUES
+ (nextval('seq_product'), 'Соевый соус', '75', '10', '0', '3');
+INSERT INTO product VALUES
+ (nextval('seq_product'), 'Куриная грудка', '195', '29.55', '7.72', '0');
+INSERT INTO product VALUES
+ (nextval('seq_product'), 'Лук', '42', '0.92', '0.08', '10.11');
+INSERT INTO product VALUES
+ (nextval('seq_product'), 'Болгарский перец', '26', '0.99', '0.3', '6.03');
+INSERT INTO product VALUES
+ (nextval('seq_product'), 'Помидоры', '18', '0.88', '0.2', '3.92');
+INSERT INTO product VALUES
+ (nextval('seq_product'), 'Масло подсолнечное', '899', '0', '99.9', '0');
+INSERT INTO product VALUES
+ (nextval('seq_product'), 'Кукурузный крахмал', '381', '0.26', '0.05', '91.27');
+INSERT INTO product VALUES
+ (nextval('seq_product'), 'Сахар', '387', '0', '0', '99.98');
+INSERT INTO product VALUES
+ (nextval('seq_product'), 'Паста', '359', '14', '2', '69.7');
+
+INSERT INTO product VALUES
+ (nextval('seq_product'), 'Яблоко желтое', '52', '0.26', '0.17', '13.73');
+INSERT INTO product VALUES
+ (nextval('seq_product'), 'Банан', '105', '1.29', '0.39', '26.95');
+INSERT INTO product VALUES
+ (nextval('seq_product'), 'Листья салата', '13', '1.05', '0.13', '2.68');
+INSERT INTO product VALUES
+ (nextval('seq_product'), 'Пучек шпината', '23', '2.86', '0.39', '3.63');
+
+
+INSERT INTO product_meals VALUES
+(4, 3, 65);
+INSERT INTO product_meals VALUES
+(5, 3, 80);
+INSERT INTO product_meals VALUES
+(6, 3, 115);
+INSERT INTO product_meals VALUES
+(7, 3, 63);
+INSERT INTO product_meals VALUES
+(8, 3, 20);
+
+INSERT INTO product_meals VALUES
+(9, 4, 48);
+INSERT INTO product_meals VALUES
+(10, 4, 40);
+INSERT INTO product_meals VALUES
+(11, 4, 177);
+INSERT INTO product_meals VALUES
+(12, 4, 1);
+
+INSERT INTO product_meals VALUES
+(13, 5, 100);
+INSERT INTO product_meals VALUES
+(14, 5, 600);
+INSERT INTO product_meals VALUES
+(15, 5, 200);
+INSERT INTO product_meals VALUES
+(16, 5, 200);
+INSERT INTO product_meals VALUES
+(17, 5, 200);
+INSERT INTO product_meals VALUES
+(18, 5, 100);
+INSERT INTO product_meals VALUES
+(19, 5, 10);
+INSERT INTO product_meals VALUES
+(20, 5, 8);
+INSERT INTO product_meals VALUES
+(21, 5, 200);
+
+INSERT INTO product_meals VALUES
+(22, 6, 100);
+INSERT INTO product_meals VALUES
+(23, 6, 50);
+INSERT INTO product_meals VALUES
+(24, 6, 16);
+INSERT INTO product_meals VALUES
+(25, 6, 500);
+
+

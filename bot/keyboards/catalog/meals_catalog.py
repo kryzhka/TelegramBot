@@ -1,12 +1,12 @@
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from aiogram.types.inline_keyboard_markup import InlineKeyboardMarkup
-from filters.filters import GetMealInfo,AddMealToFavorites,MainMenu,MealCatalog
+from filters.filters import GetMealInfo,AddMealToFavorites,Catalog,MealCatalog,MainMenu
 #Меню заготовленных блюд
 def all_meals(meals):
     builder = InlineKeyboardBuilder()
     for id,meal in meals:
         builder.button(text=f'{meal}',callback_data=GetMealInfo(meal_id=id,menu='meals_menu'))
-    builder.button(text="Назад",callback_data=MainMenu())
+    builder.button(text="Назад",callback_data=Catalog())
     builder.adjust(1)
     return builder.as_markup()
 
