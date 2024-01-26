@@ -21,12 +21,12 @@ def all_meals_with_product(meals,product_id):#Кнопки со всеми до�
 def action_with_meal(meal_id,product_id):#Кнопки для добавления блюда в личный кабинет
     builder = InlineKeyboardBuilder()
     builder.button(text="Добавить",callback_data=AddMealToFavorites(meal_id=meal_id,menu='found_in_search_products',product_id=product_id))
-    builder.button(text="Назад",callback_data=MealsWithProduct(product_id=product_id,product_name=' ',menu='product_found'))
+    builder.button(text="Назад",callback_data=ProductSearch())
     return builder.as_markup()
 
 def action_complete(product_id):
     builder=InlineKeyboardBuilder()
-    builder.button(text='Назад',callback_data=MealsWithProduct(product_id=product_id,product_name=' ',menu='product_found'))
+    builder.button(text='Назад',callback_data=ProductSearch())
     builder.button(text='В главное меню',callback_data=MainMenu())
     return builder.as_markup()
 

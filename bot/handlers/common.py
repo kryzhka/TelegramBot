@@ -69,7 +69,7 @@ async def add_meal_to_favorites(callback: types.CallbackQuery,callback_data=AddM
     elif(menu=='calories_search'):
         keyboard=calories_search_keyboards.action_complete(limit)
     elif(menu=='meal_name_search'):
-        keyboard=meal_name_search.action_complete(meal_id,name)
+        keyboard=meal_name_search.action_complete(name)
     await callback.message.edit_caption(caption="Блюдо добавлено в ваш кабинет",reply_markup=keyboard)
     await callback.answer()
 
